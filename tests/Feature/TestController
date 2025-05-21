@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -19,18 +18,14 @@ class UserController extends Controller
             $request->session()->regenerate();
         }
 
-        return redirect('/home');
+        return redirect('/');
     }
 
     public function logout(){
         auth()->logout();
         return redirect('/');
     }
-    public function register(){
-        return view('index');
-    }
-
-    public function create(Request $request){
+    public function register(Request $request){
         $UserInput = $request->validate([
             'name' => ['required', 'min:3', 'max:45', Rule::unique('users','name')],
             'email'=> ['required', 'email',Rule::unique('users','email')],
@@ -43,9 +38,5 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    function index(){
-        $posts = Post::all();
-        return view('home', compact('posts'));
-    }
 
 }
