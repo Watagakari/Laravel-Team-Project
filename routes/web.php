@@ -15,19 +15,23 @@ Route::get('/', function () {
     return view('index', ['posts' => $posts]);
 });
 
-Route::post('/register', [UserController::class,'register']);
-Route::post('/register/create', [UserController::class,'create']);
-Route::get('/home', [UserController::class,'index']);
+// Register
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/register/create', [UserController::class, 'create']);
 
-Route::post('/logout', [UserController::class,'logout']);
+// Login dan Logout
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/logout', [UserController::class, 'logout']);
 
-Route::post('/login', [UserController::class,'login']);
+// Protected Routes (Hanya untuk yang sudah login)
+Route::middleware('auth')->group(function () {
 
-Route::post('/create-post', [PostController::class,'createPost']);
+    // Home
+    Route::get('/home', [UserController::class, 'index']);
 
-Route::get('/edit-post/{post}', [PostController::class,'EditScreen']);
-
-
-Route::put('/edit-post/{post}', [PostController::class,'UpdatePost']);
-
-Route::delete('/delete-post/{post}', [PostController::class,'DeletePost']);
+    // Post
+    Route::post('/create-post', [PostController::class, 'createPost']);
+    Route::get('/edit-post/{post}', [PostController::class, 'EditScreen']);
+    Route::put('/edit-post/{post}', [PostController::class, 'UpdatePost']);
+    Route::delete('/delete-post/{post}', [PostController::class, 'DeletePost']);
+});
