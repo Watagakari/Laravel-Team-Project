@@ -97,8 +97,8 @@
 
     <!-- Right Panel -->
     <div class="col-md-6 right-panel">
-      <p class="fs-4">Lorem Ipsum</p>
-      <p class="fs-5 fw-bold">Dolor amet</p>
+      <p class="fs-4">Forklet</p>
+      <p class="fs-5 fw-bold">Where Dream Comes True</p>
     </div>
   </div>
 </div>
