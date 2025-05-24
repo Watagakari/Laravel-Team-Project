@@ -7,13 +7,11 @@ use App\Http\Controllers\UserController;
 
 
 Route::get('/', function () {
-    $posts = [];
-    if (auth()-> check()) {
-    $posts = auth()->user()->userPosts()->latest()-> get();
-    //$posts = Post::all();
+    if (auth()->check()) {
+        return redirect('/home');
     }
-    return view('index', ['posts' => $posts]);
-});
+    return view('index');
+})->name('login');
 
 // Register
 Route::post('/register', [UserController::class, 'register']);
@@ -26,8 +24,9 @@ Route::post('/logout', [UserController::class, 'logout']);
 // Protected Routes (Hanya untuk yang sudah login)
 Route::middleware('auth')->group(function () {
 
-    // Home
-    Route::get('/home', [UserController::class, 'index']);
+    // Home & personal spaces
+    Route::get('/personal', [UserController::class, 'index']);
+    Route::get('/home', [UserController::class, 'indexAll']);
 
     // Post
     Route::post('/create-post', [PostController::class, 'createPost']);
