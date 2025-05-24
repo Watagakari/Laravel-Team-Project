@@ -45,7 +45,7 @@
             <a href="#">Bookmarks</a>
             <a href="#">Profile</a>
             <a href="/personal">Personal Post</a>
-            <a href="#">Library</a>
+            <a href="/library">Library</a>
             <div class="text-center mt-3">
                 <strong>John Doe</strong><br>
                 <small>@johndoe</small><br>
