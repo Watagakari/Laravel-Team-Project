@@ -44,7 +44,7 @@
             <a href="#">Home</a>
             <a href="#">Bookmarks</a>
             <a href="#">Profile</a>
-            <a href="#">Personal Post</a>
+            <a href="/personal">Personal Post</a>
             <a href="#">Library</a>
             <div class="text-center mt-3">
                 <strong>John Doe</strong><br>
