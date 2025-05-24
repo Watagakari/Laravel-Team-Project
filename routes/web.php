@@ -34,8 +34,3 @@ Route::middleware('auth')->group(function () {
     Route::put('/edit-post/{post}', [PostController::class, 'UpdatePost']);
     Route::delete('/delete-post/{post}', [PostController::class, 'DeletePost']);
 });
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 29624223047e30738aa07260e9d87cf625c6702b
