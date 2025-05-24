@@ -54,11 +54,14 @@
 <body>
     <div class="container">
         <h1>Edit Post</h1>
-        <form action="/edit-post/{{ $post->id }}" method="POST">
+        <form action="/edit-post/{{ $post->id }}" method="POST" enctype="multipart/form-data"> <!-- Added enctype for file upload -->
             @csrf
             @method('PUT')
             <input type="text" name="title" value="{{ $post->title }}" placeholder="Post Title" required>
             <textarea name="body" placeholder="Post Content" required>{{ $post->body }}</textarea>
+            <input type="text" name="cp" value="{{ $post->cp }}" placeholder="Contact Person" required> <!-- New field for contact person -->
+            <input type="text" name="location" value="{{ $post->location }}" placeholder="Location" required> <!-- New field for location -->
+            <input type="file" name="image" accept="image/*"> <!-- File input for image upload -->
             <button type="submit">Save Changes</button>
         </form>
     </div>
