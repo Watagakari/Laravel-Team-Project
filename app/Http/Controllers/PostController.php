@@ -12,12 +12,12 @@ class PostController extends Controller
         if(auth()->user() -> id === $post['user_id']){
             $post -> delete();
         }
-        return redirect('/');
+        return redirect('/personal');
     }
 
     public function UpdatePost(Post $post, Request $request){
         if(auth()->user() -> id !== $post['user_id']){
-            return redirect('/');
+            return redirect('/personal');
         }
 
         $edit = $request-> validate([
@@ -29,11 +29,11 @@ class PostController extends Controller
         $edit['body'] = strip_tags($edit['body']);
 
         $post->update($edit);
-        return redirect('/');
+        return redirect('/personal');
     }
     public function EditScreen(Post $post){
         if(auth()->user() -> id !== $post['user_id']){
-            return redirect('/');
+            return redirect('/personal');
         }
         return view('edit-post', ['post' => $post]);
     }
@@ -47,6 +47,6 @@ class PostController extends Controller
         $post['body'] = strip_tags($post['body']);
         $post['user_id'] = auth()->id();
         Post::create($post);
-        return redirect('/');
+        return redirect('/personal');
     }
 }
