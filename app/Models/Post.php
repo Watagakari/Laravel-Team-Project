@@ -14,4 +14,10 @@ class Post extends Model
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function savedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'library_posts', 'post_id', 'user_id')->withTimestamps();
+    }
+
 }

@@ -42,7 +42,6 @@
         <div class="sidebar col-3">
             <h3 class="text-center">ForkLet</h3>
             <a href="#">Home</a>
-            <a href="#">Bookmarks</a>
             <a href="#">Profile</a>
             <a href="/personal">Personal Post</a>
             <a href="/library">Library</a>
@@ -62,6 +61,12 @@
             @foreach ($posts as $post)
                 <div class="post">
                     <h4>{{ $post['title'] }}</h4>
+                    <form action="/library/save/{{ $post->id }}" method="POST">
+    @csrf
+    <button type="submit" class="btn btn-outline-primary btn-sm mt-2">
+        <i class="fas fa-bookmark"></i> Save to Library
+    </button>
+</form>
                     <p class="user-info">{{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post['location'] }}</p>
                     <p>{{ $post['body'] }}</p>
                     @if ($post->image_path)

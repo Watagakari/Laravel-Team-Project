@@ -4,7 +4,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\Librarycontroller;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -33,4 +33,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-post/{post}', [PostController::class, 'EditScreen']);
     Route::put('/edit-post/{post}', [PostController::class, 'UpdatePost']);
     Route::delete('/delete-post/{post}', [PostController::class, 'DeletePost']);
+
+    // Library
+    Route::get('/library', [LibraryController::class, 'index'])->name('library.index');
+
+    // Save a post (attach post to user)
+    Route::post('/library/save/{post}', [LibraryController::class, 'save'])->name('library.save')->middleware('auth');
+
+    // Unsave a post (detach post from user)
+    Route::delete('/library/unsave/{post}', [LibraryController::class, 'unsave'])->name('library.unsave')->middleware('auth');
+
 });
