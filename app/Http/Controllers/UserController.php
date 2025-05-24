@@ -66,4 +66,11 @@ class UserController extends Controller
         $posts = auth()->user()->userPosts()->latest()->get();
         return view('home', compact('posts'));
     }
+
+    public function indexAll()
+    {
+        // Menampilkan semua post
+        $posts = Post::latest()->get();
+        return view('home', compact('posts'));
+    }
 }
