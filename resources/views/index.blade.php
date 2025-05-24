@@ -97,13 +97,8 @@
 
     <!-- Right Panel -->
     <div class="col-md-6 right-panel">
-<<<<<<< HEAD
       <p class="fs-4">Forklet</p>
       <p class="fs-5 fw-bold">Where Dream Comes True</p>
-=======
-      <p class="fs-5 fw-bold">Lorem Ipsum</p>
-      <p class="fs-4">Dolor amet</p>
->>>>>>> 240a59dbde559a21842ef0233011d2fd833105b4
     </div>
   </div>
 </div>

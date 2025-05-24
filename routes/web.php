@@ -33,8 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-post/{post}', [PostController::class, 'EditScreen']);
     Route::put('/edit-post/{post}', [PostController::class, 'UpdatePost']);
     Route::delete('/delete-post/{post}', [PostController::class, 'DeletePost']);
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> 240a59dbde559a21842ef0233011d2fd833105b4
+
+

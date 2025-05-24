@@ -64,7 +64,6 @@ class UserController extends Controller
     {
         // Menampilkan hanya post milik user yang sedang login
         $posts = auth()->user()->userPosts()->latest()->get();
-<<<<<<< HEAD
         return view('personal', compact('posts'));
     }
 
@@ -74,15 +73,4 @@ class UserController extends Controller
         $posts = Post::latest()->get();
         return view('home', compact('posts'));
     }
-=======
-        return view('home', compact('posts'));
-    }
-
-    public function indexAll()
-    {
-        // Menampilkan semua post
-        $posts = Post::latest()->get();
-        return view('home', compact('posts'));
-    }
->>>>>>> 240a59dbde559a21842ef0233011d2fd833105b4
 }
