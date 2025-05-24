@@ -97,12 +97,8 @@
 
     <!-- Right Panel -->
     <div class="col-md-6 right-panel">
-      <p class="fs-4">Forklet</p>
-<<<<<<< HEAD
-      <p class="fs-5 fw-bold">Where the magics begin</p>
-=======
-      <p class="fs-5 fw-bold">Where Dream Comes True</p>
->>>>>>> 29624223047e30738aa07260e9d87cf625c6702b
+      <p class="fs-5 fw-bold">Forklet</p>
+      <p class="fs-4">Where the magics begin</p>
     </div>
   </div>
 </div>
