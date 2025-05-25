@@ -60,6 +60,43 @@ class UserController extends Controller
         return redirect('/home');
     }
 
+    public function update(Request $request)
+    {
+        $user = auth()->user();
+
+        $data = $request->validate([
+            'name' => ['required', 'min:3', 'max:45', Rule::unique('users')->ignore($user->id)],
+            'password' => ['required', 'min:6', 'max:16'],
+        ]);
+
+        $user->name = $data['name'];
+        $user->password = bcrypt($data['password']);
+        $user->save();
+
+        // Logout user agar login ulang dengan data baru
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('message', 'Akun berhasil diperbarui. Silakan login kembali.');
+    }
+
+    public function delete(Request $request)
+    {
+        $user = auth()->user();
+
+        auth()->logout(); // Logout user terlebih dahulu
+
+        // Hapus user
+        $user->delete();
+
+        // Invalidasi session dan redirect
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('message', 'Akun Anda berhasil dihapus.');
+    }
+
     public function index()
     {
         // Menampilkan hanya post milik user yang sedang login
