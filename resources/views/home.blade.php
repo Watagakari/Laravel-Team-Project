@@ -22,7 +22,7 @@
     }
     
     .flex-grow-1[
-    font-family: system-ui;
+        font-family: system-ui;
     ]
 
     .sidebar {
@@ -65,8 +65,7 @@
 
     .sidebar.collapsed a,
     .sidebar.collapsed .user-info,
-    .sidebar.collapsed .logout-area,
-    .sidebar.collapsed h4 {
+    .sidebar.collapsed .logout-area, {
       display: none;
     }
 
