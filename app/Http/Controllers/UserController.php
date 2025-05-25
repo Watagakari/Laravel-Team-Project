@@ -78,7 +78,7 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('message', 'Akun berhasil diperbarui. Silakan login kembali.');
+        return redirect('/')->with('message', 'Account Successfully Deleted');
     }
 
     public function delete(Request $request)
