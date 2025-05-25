@@ -20,26 +20,20 @@
       display: flex;
       min-height: 100vh;
     }
-    
-    .flex-grow-1{}
-        font-family: system-ui;
-    }
 
     .sidebar {
-    font-family: system-ui;
-    background-color: #fff;
-    width: 300px;
-    transition: width 0.3s ease;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    position: relative;
+      background-color: #fff;
+      width: 250px;
+      transition: width 0.3s ease;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      position: relative;
     }
 
     .sidebar.collapsed {
-      width: 0px;
+      width: 70px;
     }
 
     .sidebar h4 {
-        font-family: cursive;
       color: var(--primary);
       padding: 1rem;
       text-align: center;
@@ -65,8 +59,7 @@
 
     .sidebar.collapsed a,
     .sidebar.collapsed .user-info,
-    .sidebar.collapsed .logout-area,
-    .sidebar.collapsed h4 {
+    .sidebar.collapsed .logout-area {
       display: none;
     }
 
@@ -78,7 +71,6 @@
     }
 
     .header {
-        font-family: cursive;
       background-color: #ffffff;
       border-bottom: 1px solid #dee2e6;
       padding: 1rem;
@@ -142,7 +134,7 @@
   <div class="wrapper">
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar">
-      <h4 class="text-center py-3" style="color: var(--primary);">ForkLet</h4>
+      <h4>ForkLet</h4>
       <a href="/home">Home</a>
       <a href="/profile">Profile</a>
       <a href="/personal">Personal Post</a>
@@ -150,7 +142,7 @@
 
       <div class="user-info mt-3">
         <strong>{{ Auth::user()->name }}</strong><br>
-
+        <small>@{{ Auth::user()->username }}</small>
       </div>
 
       <div class="logout-area">
