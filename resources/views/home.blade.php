@@ -96,22 +96,20 @@
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar">
             <h4 class="text-center py-3" style="color: var(--primary);">ForkLet</h4>
-            <a href="#">Home</a>
-            <a href="#">Profile</a>
+            <a href="/home">Home</a>
+            <a href="/profile">Profile</a>
             <a href="/personal">Personal Post</a>
             <a href="/library">Library</a>
             <div class="text-center mt-3 user-info">
                 <strong>{{ Auth::user()->name }}</strong><br>
-                <small>@{{ Auth::user()->username }}</small>
-                <form action="/logout" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-danger btn-block mt-2">Log Out</button>
-                </form>
-            </div>
-        </div>
 
-        <!-- Main Content -->
-        <div class="flex-grow-1">
+                </div>
+                <div class="mt-auto px-3 pb-4" style="position: absolute; bottom: 0; width: 100%;">
+                    <form action="/logout" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-block mt-2" style="background-color: #958433; color: #fff;">Log Out</button>
+                    </form>
+            </div>
             <div class="header">
                 <button class="btn-toggle" onclick="toggleSidebar()">
                     <i class="fas fa-bars"></i>
@@ -121,7 +119,10 @@
                     <img src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="avatar" class="rounded-circle" width="40" height="40">
                 </div>
             </div>
+        </div>
 
+        <!-- Main Content -->
+        <div class="flex-grow-1">
             <div class="container mt-4">
                 @foreach ($posts as $post)
                     <div class="post">
