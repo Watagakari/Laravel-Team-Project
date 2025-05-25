@@ -12,6 +12,10 @@
     :root {
       --primary: #958433;
     }
+    /* Custom font cursive fallback */
+    .font-cursive {
+      font-family: cursive;
+    }
   </style>
 </head>
 <body class="bg-[#F7F8FA] text-[#3E3E3E] font-sans">
@@ -19,50 +23,47 @@
     <!-- Sidebar -->
     <aside id="sidebar" class="flex flex-col bg-[#FCFBEF] border-r border-[#E6E6E6] transition-all duration-300 w-72">
       <div>
-        <h4 class="text-[#958433] font-cursive font-bold text-2xl px-6 py-6 select-none" style="font-family: cursive;">
-          ForkLet
+        <h4 id="sidebarTitle" class="text-[#958433] font-cursive font-bold text-2xl px-6 py-6 select-none flex items-center gap-3" style="font-family: cursive;">
+          <span>ForkLet</span>
         </h4>
         <nav class="flex flex-col space-y-2 px-3">
           <a href="/home" class="flex items-center gap-3 bg-[#958433] text-white rounded-full px-5 py-2.5 font-semibold text-sm leading-5">
-            <i class="fas fa-home text-sm"></i>
-            Home
+            <i class="fas fa-home text-sm w-5 text-center"></i>
+            <span class="sidebar-text">Home</span>
           </a>
           <a href="/profile" class="flex items-center gap-3 text-[#3E3E3E] text-sm leading-5 px-5 py-2.5 rounded-full hover:bg-[#F8F5EF] transition">
-            <i class="fas fa-user text-sm"></i>
-            Profile
+            <i class="fas fa-user text-sm w-5 text-center"></i>
+            <span class="sidebar-text">Profile</span>
           </a>
           <a href="/personal" class="flex items-center gap-3 text-[#3E3E3E] font-semibold text-sm leading-5 px-5 py-2.5 rounded-full hover:bg-[#F8F5EF] transition">
-            <i class="fas fa-pencil-alt text-sm"></i>
-            Personal Post
+            <i class="fas fa-pencil-alt text-sm w-5 text-center"></i>
+            <span class="sidebar-text">Personal Post</span>
           </a>
           <a href="/library" class="flex items-center gap-3 text-[#3E3E3E] text-sm leading-5 px-5 py-2.5 rounded-full hover:bg-[#F8F5EF] transition">
-            <i class="fas fa-book text-sm"></i>
-            Library
+            <i class="fas fa-book text-sm w-5 text-center"></i>
+            <span class="sidebar-text">Library</span>
           </a>
         </nav>
       </div>
-      <div class="border-t border-[#E6E6E6] px-6 py-6 mt-auto">
-        <div class="flex items-center gap-3">
-          <img
-            src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}"
-            alt="User avatar"
-            class="w-10 h-10 rounded-full object-cover"
-            width="40"
-            height="40"
-          />
-          <div>
-            <p class="font-semibold text-[#3E3E3E] text-sm leading-5 select-text">
-              {{ Auth::user()->name }}
-            </p>
-          </div>
-        </div>
-        <form action="/logout" method="POST" class="mt-4">
+      <div class="border-t border-[#E6E6E6] px-6 py-6 mt-auto flex flex-col items-center gap-4">
+        <img
+          id="sidebarAvatar"
+          src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}"
+          alt="User avatar"
+          class="w-10 h-10 rounded-full object-cover"
+          width="40"
+          height="40"
+        />
+        <p id="sidebarUserName" class="font-semibold text-[#3E3E3E] text-sm leading-5 select-text">
+          {{ Auth::user()->name }}
+        </p>
+        <form id="sidebarLogoutForm" action="/logout" method="POST" class="w-full text-center">
           @csrf
           <button
             type="submit"
-            class="flex items-center gap-2 text-[#958433] font-semibold text-sm leading-5 hover:underline"
+            class="flex items-center justify-center gap-2 text-[#958433] font-semibold text-sm leading-5 hover:underline w-full"
           >
-            <i class="fas fa-sign-out-alt"></i> Log Out
+            <i class="fas fa-sign-out-alt"></i> <span class="sidebar-text">Log Out</span>
           </button>
         </form>
       </div>
@@ -131,48 +132,54 @@
   <script>
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebarBtn');
+    const sidebarTitle = document.getElementById('sidebarTitle');
+    const sidebarUserName = document.getElementById('sidebarUserName');
+    const sidebarLogoutForm = document.getElementById('sidebarLogoutForm');
 
     toggleBtn.addEventListener('click', () => {
       if (sidebar.classList.contains('w-72')) {
+        // Collapse sidebar
         sidebar.classList.remove('w-72');
-        sidebar.classList.add('w-16');
-        // Hide text in sidebar links except icons
-        sidebar.querySelectorAll('a').forEach((link) => {
-          link.querySelectorAll('span, svg, i').forEach((el) => {
-            el.style.display = 'inline-block';
-          });
-          // Hide text nodes by setting opacity 0 and width 0
-          link.childNodes.forEach((node) => {
-            if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
-              node.textContent = '';
-            }
-          });
+        sidebar.classList.add('w-20');
+
+        // Change sidebar title to single letter and center it
+        sidebarTitle.classList.add('justify-center', 'px-0');
+        sidebarTitle.innerHTML = '<span>F</span>';
+
+        // Hide all sidebar text except icons
+        sidebar.querySelectorAll('nav a').forEach((link) => {
+          link.classList.add('justify-center', 'px-0');
+          const icon = link.querySelector('i');
+          icon.classList.add('mx-auto');
+          // Hide text spans
+          const textSpan = link.querySelector('.sidebar-text');
+          if (textSpan) textSpan.style.display = 'none';
         });
-        // Hide sidebar header text
-        const headerText = sidebar.querySelector('h4');
-        if (headerText) headerText.textContent = 'F';
+
+        // Hide username text and logout form completely
+        sidebarUserName.style.display = 'none';
+        sidebarLogoutForm.style.display = 'none';
       } else {
-        sidebar.classList.remove('w-16');
+        // Expand sidebar
+        sidebar.classList.remove('w-20');
         sidebar.classList.add('w-72');
-        // Restore sidebar links text
-        const links = [
-          { href: '/home', icon: 'fa-home', text: 'Home' },
-          { href: '/profile', icon: 'fa-user', text: 'Profile' },
-          { href: '/personal', icon: 'fa-pencil-alt', text: 'Personal Post' },
-          { href: '/library', icon: 'fa-book', text: 'Library' },
-        ];
-        const navLinks = sidebar.querySelectorAll('a');
-        navLinks.forEach((link, i) => {
-          link.textContent = '';
-          const icon = document.createElement('i');
-          icon.className = `fas ${links[i].icon} text-sm`;
-          link.appendChild(icon);
-          link.insertAdjacentText('beforeend', ' ' + links[i].text);
-          link.classList.remove('justify-center');
+
+        // Restore sidebar title
+        sidebarTitle.classList.remove('justify-center', 'px-0');
+        sidebarTitle.innerHTML = '<span>ForkLet</span>';
+
+        // Restore nav links text and alignment
+        sidebar.querySelectorAll('nav a').forEach((link) => {
+          link.classList.remove('justify-center', 'px-0');
+          const icon = link.querySelector('i');
+          icon.classList.remove('mx-auto');
+          const textSpan = link.querySelector('.sidebar-text');
+          if (textSpan) textSpan.style.display = 'inline';
         });
-        // Restore sidebar header text
-        const headerText = sidebar.querySelector('h4');
-        if (headerText) headerText.textContent = 'ForkLet';
+
+        // Show username and logout form
+        sidebarUserName.style.display = 'block';
+        sidebarLogoutForm.style.display = 'block';
       }
     });
   </script>
