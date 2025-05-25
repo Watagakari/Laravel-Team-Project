@@ -15,12 +15,33 @@
     .font-cursive {
       font-family: cursive;
     }
+    /* Ensure sidebar bottom section fixed */
+    #sidebarBottom {
+      bottom: 0;
+      width: 18rem; /* 72 * 4 = 288px */
+      background-color: #FCFBEF;
+      border-top: 1px solid #E6E6E6;
+      padding: 1.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      position: fixed;
+      left: 0;
+      z-index: 50;
+      transition: width 0.3s;
+    }
+    /* Adjust width when sidebar collapsed */
+    #sidebar.collapsed #sidebarBottom {
+      width: 5rem; /* 20 * 4 = 80px */
+      padding: 1.5rem 0.5rem;
+    }
   </style>
 </head>
 <body class="bg-[#F7F8FA] text-[#3E3E3E] font-sans">
   <div class="flex min-h-screen">
-    <!-- Sidebar -->
-    <aside id="sidebar" class="flex flex-col bg-[#FCFBEF] border-r border-[#E6E6E6] transition-all duration-300 w-72">
+     <!-- Sidebar -->
+    <aside id="sidebar" class="flex flex-col bg-[#FCFBEF] border-r border-[#E6E6E6] transition-all duration-300 w-72 relative">
       <div>
         <h4 id="sidebarTitle" class="text-[#958433] font-cursive font-bold text-2xl px-6 py-6 select-none flex items-center gap-3" style="font-family: cursive;">
           <span>ForkLet</span>
@@ -34,17 +55,17 @@
             <i class="fas fa-user text-sm w-5 text-center"></i>
             <span class="sidebar-text">Profile</span>
           </a>
-          <a href="/personal" class="flex items-center gap-3 bg-[#958433] text-white rounded-full px-5 py-2.5 font-semibold text-sm leading-5">
+          <a href="/personal" class="flex items-center gap-3 text-[#3E3E3E] text-sm leading-5 px-5 py-2.5 rounded-full hover:bg-[#F8F5EF] transition">
             <i class="fas fa-pencil-alt text-sm w-5 text-center"></i>
             <span class="sidebar-text">Personal Post</span>
           </a>
-          <a href="/library" class="flex items-center gap-3 text-[#3E3E3E] text-sm leading-5 px-5 py-2.5 rounded-full hover:bg-[#F8F5EF] transition">
+          <a href="/library" class="flex items-center gap-3 bg-[#958433] text-white rounded-full px-5 py-2.5 font-semibold text-sm leading-5">
             <i class="fas fa-book text-sm w-5 text-center"></i>
             <span class="sidebar-text">Library</span>
           </a>
         </nav>
       </div>
-      <div class="border-t border-[#E6E6E6] px-6 py-6 mt-auto flex flex-col items-center gap-4">
+      <div id="sidebarBottom" class="mt-auto">
         <img
           id="sidebarAvatar"
           src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}"
@@ -53,10 +74,10 @@
           width="40"
           height="40"
         />
-        <p id="sidebarUserName" class="font-semibold text-[#3E3E3E] text-sm leading-5 select-text">
+        <p id="sidebarUserName" class="font-semibold text-[#3E3E3E] text-sm leading-5 select-text m-0">
           {{ Auth::user()->name }}
         </p>
-        <form id="sidebarLogoutForm" action="/logout" method="POST" class="w-full text-center">
+        <form id="sidebarLogoutForm" action="/logout" method="POST" class="w-full text-center m-0">
           @csrf
           <button
             type="submit"
@@ -67,6 +88,7 @@
         </form>
       </div>
     </aside>
+
 
     <!-- Main content -->
     <div class="flex-1 flex flex-col">
@@ -176,18 +198,19 @@
     </div>
   </div>
 
-  <script>
+ <script>
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebarBtn');
     const sidebarTitle = document.getElementById('sidebarTitle');
     const sidebarUserName = document.getElementById('sidebarUserName');
     const sidebarLogoutForm = document.getElementById('sidebarLogoutForm');
+    const sidebarBottom = document.getElementById('sidebarBottom');
 
     toggleBtn.addEventListener('click', () => {
       if (sidebar.classList.contains('w-72')) {
         // Collapse sidebar
         sidebar.classList.remove('w-72');
-        sidebar.classList.add('w-20');
+        sidebar.classList.add('w-20', 'collapsed');
 
         // Change sidebar title to single letter and center it
         sidebarTitle.classList.add('justify-center', 'px-0');
@@ -208,7 +231,7 @@
         sidebarLogoutForm.style.display = 'none';
       } else {
         // Expand sidebar
-        sidebar.classList.remove('w-20');
+        sidebar.classList.remove('w-20', 'collapsed');
         sidebar.classList.add('w-72');
 
         // Restore sidebar title
