@@ -28,14 +28,14 @@
     .sidebar {
     font-family: system-ui;
     background-color: #fff;
-    width: 250px;
+    width: 300px;
     transition: width 0.3s ease;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     position: relative;
     }
 
     .sidebar.collapsed {
-      width: 70px;
+      width: 0px;
     }
 
     .sidebar h4 {
