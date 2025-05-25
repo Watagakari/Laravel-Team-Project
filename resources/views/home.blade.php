@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #f2f4f7;
+            background-color:rgb(187, 167, 129);
         }
 
         .sidebar {
