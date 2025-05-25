@@ -35,6 +35,7 @@
     }
 
     .sidebar h4 {
+        font-family: Itim;
       color: var(--primary);
       padding: 1rem;
       text-align: center;
