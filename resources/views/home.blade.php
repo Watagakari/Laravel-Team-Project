@@ -1,145 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>For You</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
-  <style>
-    body {
-      background: linear-gradient(to bottom right, #f8f9fa, #eaeef2);
-    }
-    .sidebar {
-      width: 250px;
-      transition: margin-left 0.3s;
-    }
-    .sidebar.collapsed {
-      margin-left: -250px;
-    }
-    .post-card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    .toggle-btn {
-      border: none;
-      background: transparent;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #f9f9f9, #e9ecef);
+        }
+        .sidebar {
+            width: 250px;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: fixed;
+            padding: 20px;
+        }
+        .sidebar a {
+            color: #333;
+            display: block;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+        .sidebar a:hover {
+            background: #f0f0f0;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 40px 20px;
+        }
+        .post {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .user-info {
+            font-size: 14px;
+            color: #888;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
-  <div class="d-flex">
+
     <!-- Sidebar -->
-    <div id="sidebar" class="sidebar bg-white shadow-sm position-fixed h-100">
-      <h4 class="text-center py-3 text-success">ForkLet</h4>
-      <a href="#" class="d-block px-4 py-2 text-dark">Home</a>
-      <a href="#" class="d-block px-4 py-2 text-dark">Profile</a>
-      <a href="/personal" class="d-block px-4 py-2 text-dark">Personal Post</a>
-      <a href="/library" class="d-block px-4 py-2 text-dark">Library</a>
-      <div class="text-center mt-3">
-        <strong>John Doe</strong><br>
-        <small>@johndoe</small><br>
-        <form action="/logout" method="POST" class="mt-2">
-          <button type="submit" class="btn btn-danger btn-sm">Log Out</button>
-        </form>
-      </div>
+    <div class="sidebar">
+        <h4 class="text-center">ForkLet</h4>
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="/personal">Personal Post</a>
+        <a href="/library">Library</a>
+        <div class="mt-4 text-center">
+            <strong>{{ auth()->user()->name }}</strong><br>
+            <small>{{ '@' . auth()->user()->username }}</small>
+            <form action="/logout" method="POST" class="mt-3">
+                @csrf
+                <button type="submit" class="btn btn-danger btn-sm btn-block">Log Out</button>
+            </form>
+        </div>
     </div>
 
     <!-- Main Content -->
-    <div class="flex-grow-1" style="margin-left:250px;" id="main-content">
-      <!-- Header -->
-      <div class="sticky-top bg-white d-flex justify-content-between align-items-center px-4 py-3 border-bottom">
-        <div class="d-flex align-items-center">
-          <button id="toggleSidebar" class="toggle-btn mr-3">
-            <i class="fas fa-bars"></i>
-          </button>
-          <h4 class="mb-0 text-success">For You</h4>
-        </div>
-        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face" class="avatar border border-success">
-      </div>
+    <div class="content">
+        <h2 class="mb-4 text-center text-secondary">For You</h2>
 
-      <!-- Post List -->
-      <div class="container py-4">
-        <div id="postContainer"></div>
-      </div>
-    </div>
-  </div>
+        @foreach ($posts as $post)
+            <div class="post">
+                <div class="d-flex align-items-center mb-2">
+                    @if ($post->user->avatar)
+                        <img src="{{ asset('storage/' . $post->user->avatar) }}" class="avatar">
+                    @else
+                        <img src="https://via.placeholder.com/40" class="avatar">
+                    @endif
+                    <div>
+                        <strong>{{ $post->user->name }}</strong><br>
+                        <small class="text-muted">{{ '@' . $post->user->username }}</small>
+                    </div>
+                </div>
 
-  <!-- Post Data and JS -->
-  <script>
-    const posts = [
-      {
-        id: 1,
-        author: "Alexander Chen",
-        username: "@alexchen",
-        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-        content: "Just launched our new sustainable packaging initiative! 🌱",
-        image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&h=600&fit=crop",
-        time: "2h",
-        location: "San Francisco, CA"
-      },
-      {
-        id: 2,
-        author: "Maya Rodriguez",
-        username: "@mayarod",
-        avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b5bc?w=150&h=150&fit=crop&crop=face",
-        content: "Behind the scenes at our latest photoshoot. ✨",
-        image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop",
-        time: "4h",
-        location: "New York, NY"
-      },
-      {
-        id: 3,
-        author: "David Park",
-        username: "@davidpark",
-        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-        content: "Weekend getaway to the mountains. 🏔️",
-        image: "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&h=600&fit=crop",
-        time: "6h",
-        location: "Rocky Mountains, CO"
-      }
-    ];
+                <h4>{{ $post->title }}</h4>
+                <p class="user-info">
+                    {{ $post->created_at->diffForHumans() }} • {{ $post->location }}
+                </p>
+                <p>{{ $post->body }}</p>
 
-    const postContainer = document.getElementById("postContainer");
-    posts.forEach(post => {
-      const postHTML = `
-        <div class="post-card mb-4">
-          <div class="d-flex align-items-center mb-2">
-            <img src="${post.avatar}" class="avatar mr-2">
-            <div>
-              <strong>${post.author}</strong> <br>
-              <small class="text-muted">${post.username} • ${post.time} • ${post.location}</small>
+                @if ($post->image_path)
+                    <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post Image" class="img-fluid rounded mb-3" style="max-height: 400px; object-fit: cover;">
+                @endif
+
+                <form action="/library/save/{{ $post->id }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-bookmark"></i> Save to Library
+                    </button>
+                </form>
             </div>
-          </div>
-          <p>${post.content}</p>
-          <img src="${post.image}" class="img-fluid rounded mb-2" style="max-height: 400px; object-fit: cover;">
-          <button class="btn btn-outline-primary btn-sm">
-            <i class="fas fa-bookmark"></i> Save to Library
-          </button>
-        </div>
-      `;
-      postContainer.innerHTML += postHTML;
-    });
+        @endforeach
+    </div>
 
-    // Sidebar Toggle
-    document.getElementById("toggleSidebar").addEventListener("click", function () {
-      const sidebar = document.getElementById("sidebar");
-      const mainContent = document.getElementById("main-content");
-      sidebar.classList.toggle("collapsed");
-      if (sidebar.classList.contains("collapsed")) {
-        mainContent.style.marginLeft = "0";
-      } else {
-        mainContent.style.marginLeft = "250px";
-      }
-    });
-  </script>
 </body>
 </html>
