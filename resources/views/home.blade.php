@@ -2,60 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>For You - ForkLet</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- Font Awesome -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All User Posts</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
     <style>
         :root {
             --primary: #958433;
-            --bg-light: #f8f9fa;
-            --text-dark: #333;
-            --card-bg: #fff;
         }
 
         body {
-            background-color: var(--bg-light);
+            background-color: #f8f9fa;
         }
 
         .sidebar {
-            background: var(--card-bg);
-            min-height: 100vh;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            width: 250px;
             transition: all 0.3s ease;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
         }
 
         .sidebar a {
             text-decoration: none;
-            color: var(--text-dark);
+            color: #333;
             padding: 15px;
             display: block;
+            transition: all 0.2s;
         }
 
         .sidebar a:hover {
-            background-color: #f0f0f0;
+            background: #f0f0f0;
         }
 
-        .sidebar.collapsed {
-            width: 80px;
+        .sidebar.collapsed a,
+        .sidebar.collapsed .user-info {
+            display: none;
         }
 
         .post {
-            background: var(--card-bg);
+            background: #ffffff;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-            transition: transform 0.2s;
-        }
-
-        .post:hover {
-            transform: scale(1.01);
         }
 
         .user-info {
@@ -63,82 +56,92 @@
             color: #666;
         }
 
-        .btn-primary {
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #dee2e6;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .btn-toggle {
             background-color: var(--primary);
-            border-color: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+        }
+
+        .btn-toggle:hover {
+            background-color: #7d702c;
         }
 
         .btn-outline-primary {
-            color: var(--primary);
             border-color: var(--primary);
+            color: var(--primary);
         }
 
         .btn-outline-primary:hover {
             background-color: var(--primary);
             color: white;
         }
-
-        .toggle-btn {
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
     </style>
 </head>
 <body>
     <div class="d-flex">
         <!-- Sidebar -->
-        <div class="sidebar col-md-3 p-3" id="sidebar">
-            <div class="text-center mb-4">
-                <h3 class="text-primary" style="color: var(--primary);">ForkLet</h3>
-                <button class="toggle-btn" onclick="toggleSidebar()">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+        <div id="sidebar" class="sidebar">
+            <h4 class="text-center py-3" style="color: var(--primary);">ForkLet</h4>
             <a href="#">Home</a>
             <a href="#">Profile</a>
             <a href="/personal">Personal Post</a>
             <a href="/library">Library</a>
-            <div class="text-center mt-3">
+            <div class="text-center mt-3 user-info">
                 <strong>{{ Auth::user()->name }}</strong><br>
-                <small>{{ '@' . Str::slug(Auth::user()->name) }}</small><br>
+                <small>@{{ Auth::user()->username }}</small>
                 <form action="/logout" method="POST">
                     @csrf
-                    </form>
-                    <div style="position: absolute; bottom: 30px; left: 0; width: 100%; padding: 0 16px;">
-                        <form action="/logout" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-danger btn-block mt-2">Log Out</button>
-                        </form>
-                    </div>
+                    <button type="submit" class="btn btn-danger btn-block mt-2">Log Out</button>
                 </form>
             </div>
         </div>
 
         <!-- Main Content -->
-        <div class="container col-md-9 mt-5">
-            <h2 class="text-center mb-4" style="color: var(--primary);">For You</h2>
-            @forelse ($posts as $post)
-                <div class="post">
-                    <h4>{{ $post->title }}</h4>
-                    <form action="/library/save/{{ $post->id }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-primary btn-sm mt-2">
-                            <i class="fas fa-bookmark"></i> Save to Library
-                        </button>
-                    </form>
-                    <p class="user-info mt-2">
-                        {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post->location }}
-                    </p>
-                    <p>{{ $post->body }}</p>
-                    @if ($post->image_path)
-                        <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post Image" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;">
-                    @endif
+        <div class="flex-grow-1">
+            <div class="header">
+                <button class="btn-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 class="m-0" style="color: var(--primary);">For You</h2>
+                <div class="user-avatar">
+                    <img src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="avatar" class="rounded-circle" width="40" height="40">
                 </div>
-            @empty
-                <p class="text-muted">No posts available.</p>
-            @endforelse
+            </div>
+
+            <div class="container mt-4">
+                @foreach ($posts as $post)
+                    <div class="post">
+                        <h4>{{ $post['title'] }}</h4>
+                        <form action="/library/save/{{ $post->id }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary btn-sm mt-2">
+                                <i class="fas fa-bookmark"></i> Save to Library
+                            </button>
+                        </form>
+                        <p class="user-info">
+                            {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post['location'] }}
+                        </p>
+                        <p>{{ $post['body'] }}</p>
+                        @if ($post->image_path)
+                            <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post Image" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;">
+                        @endif
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
 
