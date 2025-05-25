@@ -126,8 +126,8 @@
     <!-- Sidebar -->
     <div class="sidebar d-flex flex-column">
         <h4 style="color: var(--primary); font-family: cursive;">ForkLet</h4>
-        <a href="#" class="active"><i class="fas fa-home mr-2"></i> Home</a>
-        <a href="#"><i class="fas fa-user mr-2"></i> Profile</a>
+        <a href="/home" class="active"><i class="fas fa-home mr-2"></i> Home</a>
+        <a href="/profile"><i class="fas fa-user mr-2"></i> Profile</a>
         <a href="/personal"><i class="fas fa-pencil-alt mr-2"></i> Personal Post</a>
         <a href="/library"><i class="fas fa-book mr-2"></i> Library</a>
         <div class="mt-auto text-center mb-4">
