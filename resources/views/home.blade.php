@@ -22,11 +22,12 @@
     }
 
     .sidebar {
-      background-color: #fff;
-      width: 250px;
-      transition: width 0.3s ease;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      position: relative;
+    font-family: Poppins;
+    background-color: #fff;
+    width: 250px;
+    transition: width 0.3s ease;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: relative;
     }
 
     .sidebar.collapsed {
@@ -134,7 +135,7 @@
   <div class="wrapper">
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar">
-      <h4>ForkLet</h4>
+      <h4 class="text-center py-3" style="color: var(--primary);">ForkLet</h4>
       <a href="/home">Home</a>
       <a href="/profile">Profile</a>
       <a href="/personal">Personal Post</a>
@@ -142,7 +143,7 @@
 
       <div class="user-info mt-3">
         <strong>{{ Auth::user()->name }}</strong><br>
-        <small>@{{ Auth::user()->username }}</small>
+
       </div>
 
       <div class="logout-area">
