@@ -20,6 +20,10 @@
       display: flex;
       min-height: 100vh;
     }
+    
+    .flex-grow-1[
+    font-family: system-ui;
+    ]
 
     .sidebar {
     font-family: system-ui;
@@ -61,7 +65,8 @@
 
     .sidebar.collapsed a,
     .sidebar.collapsed .user-info,
-    .sidebar.collapsed .logout-area {
+    .sidebar.collapsed .logout-area,
+    .sidebar.collapsed h4 {
       display: none;
     }
 
