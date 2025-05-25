@@ -1,172 +1,180 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All User Posts</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        :root {
-            --primary: #958433;
-            --sidebar-bg: #f8f9fa;
-            --highlight-bg: #b2a254;
-        }
-
-        body {
-            background-color: #f2f4f7;
-        }
-
-        .sidebar {
-            background-color: #fff;
-            width: 280px;
-            height: 100vh;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-            position: fixed;
-        }
-
-        .sidebar h4 {
-            padding: 1.5rem;
-            font-weight: bold;
-        }
-
-        .sidebar a {
-            display: flex;
-            align-items: center;
-            padding: 12px 24px;
-            color: #333;
-            text-decoration: none;
-            border-radius: 999px;
-            margin: 8px 12px;
-            transition: 0.2s ease;
-        }
-
-        .sidebar a:hover {
-            background-color: rgb(248, 245, 239);
-        }
-
-        .sidebar a.active {
-            background-color: var(--primary);
-            color: white;
-            font-weight: bold;
-        }
-
-        .header {
-            margin-left: 250px;
-            background-color: #fff;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid #dee2e6;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header h2 {
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .content {
-            margin-left: 250px;
-            padding: 2rem;
-        }
-
-        .post {
-        background: #ffffff;
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 24px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
-}
-
-
-        .post h4 {
-            margin-bottom: 10px;
-        }
-
-        .post img {
-            border-radius: 12px;
-            max-height: 400px;
-            object-fit: cover;
-            width: 100%;
-        }
-
-        .user-info {
-            font-size: 14px;
-            color: #777;
-        }
-
-        .user-avatar img {
-            border-radius: 50%;
-        }
-
-        .btn-outline-primary {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline-primary:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .logout-btn {
-            padding: 12px 24px;
-            margin: 1rem;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>All User Posts</title>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary: #958433;
+    }
+  </style>
 </head>
-<body>
+<body class="bg-[#F7F8FA] text-[#3E3E3E] font-sans">
+  <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <div class="sidebar d-flex flex-column">
-        <h4 style="color: var(--primary); font-family: cursive;">ForkLet</h4>
-        <a href="/home" class="active"><i class="fas fa-home mr-2"></i> Home</a>
-        <a href="/profile"><i class="fas fa-user mr-2"></i> Profile</a>
-        <a href="/personal"><i class="fas fa-pencil-alt mr-2"></i> Personal Post</a>
-        <a href="/library"><i class="fas fa-book mr-2"></i> Library</a>
-        <div class="mt-auto text-center mb-4">
-            <div><strong>{{ Auth::user()->name }}</strong></div>
-            <form action="/logout" method="POST" class="mt-2">
-                @csrf
-                <button type="submit" class="btn logout-btn" style="background-color: #958433; color: white;">Log Out</button>
-            </form>
+    <aside id="sidebar" class="flex flex-col bg-[#FCFBEF] border-r border-[#E6E6E6] transition-all duration-300 w-72">
+      <div>
+        <h4 class="text-[#958433] font-cursive font-bold text-2xl px-6 py-6 select-none" style="font-family: cursive;">
+          ForkLet
+        </h4>
+        <nav class="flex flex-col space-y-2 px-3">
+          <a href="/home" class="flex items-center gap-3 bg-[#958433] text-white rounded-full px-5 py-2.5 font-semibold text-sm leading-5">
+            <i class="fas fa-home text-sm"></i>
+            Home
+          </a>
+          <a href="/profile" class="flex items-center gap-3 text-[#3E3E3E] text-sm leading-5 px-5 py-2.5 rounded-full hover:bg-[#F8F5EF] transition">
+            <i class="fas fa-user text-sm"></i>
+            Profile
+          </a>
+          <a href="/personal" class="flex items-center gap-3 text-[#3E3E3E] font-semibold text-sm leading-5 px-5 py-2.5 rounded-full hover:bg-[#F8F5EF] transition">
+            <i class="fas fa-pencil-alt text-sm"></i>
+            Personal Post
+          </a>
+          <a href="/library" class="flex items-center gap-3 text-[#3E3E3E] text-sm leading-5 px-5 py-2.5 rounded-full hover:bg-[#F8F5EF] transition">
+            <i class="fas fa-book text-sm"></i>
+            Library
+          </a>
+        </nav>
+      </div>
+      <div class="border-t border-[#E6E6E6] px-6 py-6 mt-auto">
+        <div class="flex items-center gap-3">
+          <img
+            src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}"
+            alt="User avatar"
+            class="w-10 h-10 rounded-full object-cover"
+            width="40"
+            height="40"
+          />
+          <div>
+            <p class="font-semibold text-[#3E3E3E] text-sm leading-5 select-text">
+              {{ Auth::user()->name }}
+            </p>
+          </div>
         </div>
-    </div>
+        <form action="/logout" method="POST" class="mt-4">
+          @csrf
+          <button
+            type="submit"
+            class="flex items-center gap-2 text-[#958433] font-semibold text-sm leading-5 hover:underline"
+          >
+            <i class="fas fa-sign-out-alt"></i> Log Out
+          </button>
+        </form>
+      </div>
+    </aside>
 
-    <!-- Header -->
-    <div class="header">
-        <h2 style="font-family: cursive;">For You</h2>
-        <div class="user-avatar">
-            <img src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="avatar" width="40" height="40">
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Header -->
+      <header class="flex items-center justify-between bg-white border-b border-[#E6E6E6] px-6 py-4 sticky top-0 z-30">
+        <button
+          id="toggleSidebarBtn"
+          aria-label="Toggle sidebar"
+          class="text-[#3E3E3E] text-xl focus:outline-none"
+          title="Toggle sidebar"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <h2 class="font-semibold text-[#958433] text-lg leading-6 font-cursive select-none" style="font-family: cursive;">
+          For You
+        </h2>
+        <div>
+          <img
+            src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}"
+            alt="User avatar"
+            class="w-10 h-10 rounded-full object-cover"
+            width="40"
+            height="40"
+          />
         </div>
-    </div>
+      </header>
 
-    <!-- Main Content -->
-    <div class="content">
+      <!-- Content -->
+      <main class="flex-1 overflow-auto p-6 bg-[#F7F8FA]">
         @foreach ($posts as $post)
-            <div class="post">
-                <h4>{{ $post['title'] }}</h4>
-                <form action="/library/save/{{ $post->id }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-primary btn-sm mt-2 mb-2">
-                        <i class="fas fa-bookmark"></i> Save to Library
-                    </button>
-                </form>
-                <p class="user-info">
-                    {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post['location'] }}
-                </p>
-                <p>{{ $post['body'] }}</p>
-                @if ($post->image_path)
-                    <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post Image">
-                @endif
-            </div>
+        <article
+          class="bg-white rounded-lg p-6 shadow max-w-4xl mx-auto mb-6"
+          aria-label="Post by {{ $post->user->name }}"
+        >
+          <h4 class="font-semibold text-[#3E3E3E] text-lg mb-2">{{ $post['title'] }}</h4>
+          <form action="/library/save/{{ $post->id }}" method="POST" class="mb-4">
+            @csrf
+            <button
+              type="submit"
+              class="inline-flex items-center gap-2 border border-[#958433] text-[#958433] text-sm font-semibold px-3 py-1.5 rounded hover:bg-[#958433] hover:text-white transition"
+            >
+              <i class="fas fa-bookmark"></i> Save to Library
+            </button>
+          </form>
+          <p class="text-[#7D7D7D] text-sm mb-3">
+            {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post['location'] }}
+          </p>
+          <p class="text-[#3E3E3E] text-base mb-4">{{ $post['body'] }}</p>
+          @if ($post->image_path)
+          <img
+            src="{{ asset('storage/' . $post->image_path) }}"
+            alt="Post image"
+            class="rounded-lg max-h-[400px] w-full object-cover"
+          />
+          @endif
+        </article>
         @endforeach
+      </main>
     </div>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebarBtn');
+
+    toggleBtn.addEventListener('click', () => {
+      if (sidebar.classList.contains('w-72')) {
+        sidebar.classList.remove('w-72');
+        sidebar.classList.add('w-16');
+        // Hide text in sidebar links except icons
+        sidebar.querySelectorAll('a').forEach((link) => {
+          link.querySelectorAll('span, svg, i').forEach((el) => {
+            el.style.display = 'inline-block';
+          });
+          // Hide text nodes by setting opacity 0 and width 0
+          link.childNodes.forEach((node) => {
+            if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
+              node.textContent = '';
+            }
+          });
+        });
+        // Hide sidebar header text
+        const headerText = sidebar.querySelector('h4');
+        if (headerText) headerText.textContent = 'F';
+      } else {
+        sidebar.classList.remove('w-16');
+        sidebar.classList.add('w-72');
+        // Restore sidebar links text
+        const links = [
+          { href: '/home', icon: 'fa-home', text: 'Home' },
+          { href: '/profile', icon: 'fa-user', text: 'Profile' },
+          { href: '/personal', icon: 'fa-pencil-alt', text: 'Personal Post' },
+          { href: '/library', icon: 'fa-book', text: 'Library' },
+        ];
+        const navLinks = sidebar.querySelectorAll('a');
+        navLinks.forEach((link, i) => {
+          link.textContent = '';
+          const icon = document.createElement('i');
+          icon.className = `fas ${links[i].icon} text-sm`;
+          link.appendChild(icon);
+          link.insertAdjacentText('beforeend', ' ' + links[i].text);
+          link.classList.remove('justify-center');
+        });
+        // Restore sidebar header text
+        const headerText = sidebar.querySelector('h4');
+        if (headerText) headerText.textContent = 'ForkLet';
+      }
+    });
+  </script>
 </body>
 </html>
