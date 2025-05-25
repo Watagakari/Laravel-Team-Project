@@ -125,7 +125,7 @@
 <body>
     <!-- Sidebar -->
     <div class="sidebar d-flex flex-column">
-        <h4 style="color: var(--primary);">ForkLet</h4>
+        <h4 style="color: var(--primary); font-family: cursive;">ForkLet</h4>
         <a href="#" class="active"><i class="fas fa-home mr-2"></i> Home</a>
         <a href="#"><i class="fas fa-user mr-2"></i> Profile</a>
         <a href="/personal"><i class="fas fa-pencil-alt mr-2"></i> Personal Post</a>
@@ -141,7 +141,7 @@
 
     <!-- Header -->
     <div class="header">
-        <h2>For You</h2>
+        <h2 style="font-family: cursive;">For You</h2>
         <div class="user-avatar">
             <img src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="avatar" width="40" height="40">
         </div>
