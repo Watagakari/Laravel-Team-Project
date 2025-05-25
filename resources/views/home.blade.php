@@ -22,7 +22,7 @@
     }
 
     .sidebar {
-    font-family: Poppins;
+    font-family: system-ui;
     background-color: #fff;
     width: 250px;
     transition: width 0.3s ease;
