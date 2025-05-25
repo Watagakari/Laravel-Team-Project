@@ -65,7 +65,8 @@
 
     .sidebar.collapsed a,
     .sidebar.collapsed .user-info,
-    .sidebar.collapsed .logout-area, {
+    .sidebar.collapsed .logout-area,
+    .sidebar.collapsed h4 {
       display: none;
     }
 
