@@ -134,7 +134,7 @@
             <div><strong>{{ Auth::user()->name }}</strong></div>
             <form action="/logout" method="POST" class="mt-2">
                 @csrf
-                <button type="submit" class="btn btn-danger logout-btn">Log Out</button>
+                <button type="submit" class="btn logout-btn" style="background-color: #958433; color: white;">Log Out</button>
             </form>
         </div>
     </div>
