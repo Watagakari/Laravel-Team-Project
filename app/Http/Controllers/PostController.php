@@ -31,7 +31,7 @@ class PostController extends Controller
         'body' => 'required',
         'cp' => 'required', // Validate contact person
         'location' => 'required', // Validate location
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate the image
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000', // Validate the image
     ]);
 
     // Sanitize the input data
@@ -71,7 +71,7 @@ class PostController extends Controller
             'body' => 'required',
             'location' => 'required',
             'cp' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000'
         ]);
 
         $post['title'] = strip_tags($post['title']);
