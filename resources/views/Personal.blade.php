@@ -12,8 +12,8 @@
                 <!-- Sidebar -->
         <div class="sidebar col-3">
             <h3 class="text-center">ForkLet</h3>
-            <a href="#">Home</a>
-            <a href="#">Profile</a>
+            <a href="/home">Home</a>
+            <a href="/profile">Profile</a>
             <a href="/personal">Personal Post</a>
             <a href="/library">Library</a>
             <div class="text-center mt-3">
