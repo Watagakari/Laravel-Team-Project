@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color:rgb(244, 240, 233);
+            background-color: #f2f4f7;
         }
 
         .sidebar {
@@ -75,7 +75,7 @@
         }
 
         .post {
-        background: #ffffff;
+        background-color: rgb(244, 240, 233);
         border-radius: 12px;
         padding: 20px;
         margin-bottom: 24px;
