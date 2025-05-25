@@ -9,6 +9,22 @@
 </head>
 <body>
     <div class="w-100">
+                <!-- Sidebar -->
+        <div class="sidebar col-3">
+            <h3 class="text-center">ForkLet</h3>
+            <a href="#">Home</a>
+            <a href="#">Profile</a>
+            <a href="/personal">Personal Post</a>
+            <a href="/library">Library</a>
+            <div class="text-center mt-3">
+                <strong>John Doe</strong><br>
+                <small>@johndoe</small><br>
+                <form action="/logout" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-block mt-2">Log Out</button>
+                </form>
+            </div>
+        </div>
           <div class="card text-center">
             <p><strong>Login Successful</strong></p>
             <form action="/logout" method="POST">
