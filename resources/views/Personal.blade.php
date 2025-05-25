@@ -51,18 +51,27 @@
             <i class="fas fa-home text-sm w-5 text-center"></i>
             <span class="sidebar-text">Home</span>
           </a>
-          <a href="/profile" class="flex items-center gap-3 text-[#3E3E3E] text-sm leading-5 px-5 py-2.5 rounded-full hover:bg-[#F8F5EF] transition">
+          <a href="/profile"
+            class="flex items-center gap-3 px-5 py-2.5 rounded-full text-sm leading-5 transition
+            {{ Request::is('profile') ? 'bg-[#958433] text-white font-semibold' : 'text-[#3E3E3E] hover:bg-[#F8F5EF]' }}">
             <i class="fas fa-user text-sm w-5 text-center"></i>
             <span class="sidebar-text">Profile</span>
           </a>
-          <a href="/personal" class="flex items-center gap-3 text-[#3E3E3E] text-sm leading-5 px-5 py-2.5 rounded-full hover:bg-[#F8F5EF] transition">
+
+          <a href="/personal"
+            class="flex items-center gap-3 px-5 py-2.5 rounded-full text-sm leading-5 transition
+            {{ Request::is('personal') ? 'bg-[#958433] text-white font-semibold' : 'text-[#3E3E3E] hover:bg-[#F8F5EF]' }}">
             <i class="fas fa-pencil-alt text-sm w-5 text-center"></i>
             <span class="sidebar-text">Personal Post</span>
           </a>
-          <a href="/library" class="flex items-center gap-3 bg-[#958433] text-white rounded-full px-5 py-2.5 font-semibold text-sm leading-5">
+
+          <a href="/library"
+            class="flex items-center gap-3 px-5 py-2.5 rounded-full text-sm leading-5 transition
+            {{ Request::is('library') ? 'bg-[#958433] text-white font-semibold' : 'text-[#3E3E3E] hover:bg-[#F8F5EF]' }}">
             <i class="fas fa-book text-sm w-5 text-center"></i>
             <span class="sidebar-text">Library</span>
           </a>
+
         </nav>
       </div>
       <div id="sidebarBottom" class="mt-auto">
