@@ -9,57 +9,53 @@
     <style>
         :root {
             --primary: #958433;
+            --sidebar-bg: #f8f9fa;
+            --highlight-bg: #b2a254;
         }
 
         body {
-            background-color: #f8f9fa;
+            background-color: #f2f4f7;
         }
 
         .sidebar {
             background-color: #fff;
             width: 250px;
-            transition: all 0.3s ease;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            position: fixed;
         }
 
-        .sidebar.collapsed {
-            width: 70px;
+        .sidebar h4 {
+            padding: 1.5rem;
+            font-weight: bold;
         }
 
         .sidebar a {
-            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
             color: #333;
-            padding: 15px;
-            display: block;
-            transition: all 0.2s;
+            text-decoration: none;
+            border-radius: 999px;
+            margin: 8px 12px;
+            transition: 0.2s ease;
         }
 
         .sidebar a:hover {
-            background: #f0f0f0;
+            background-color: #f0f0f0;
         }
 
-        .sidebar.collapsed a,
-        .sidebar.collapsed .user-info {
-            display: none;
-        }
-
-        .post {
-            background: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .user-info {
-            font-size: 14px;
-            color: #666;
+        .sidebar a.active {
+            background-color: var(--primary);
+            color: white;
+            font-weight: bold;
         }
 
         .header {
-            background-color: #ffffff;
+            margin-left: 250px;
+            background-color: #fff;
+            padding: 1rem 2rem;
             border-bottom: 1px solid #dee2e6;
-            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -68,16 +64,42 @@
             z-index: 100;
         }
 
-        .btn-toggle {
-            background-color: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 5px;
+        .header h2 {
+            color: var(--primary);
+            font-weight: bold;
         }
 
-        .btn-toggle:hover {
-            background-color: #7d702c;
+        .content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .post {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .post h4 {
+            margin-bottom: 10px;
+        }
+
+        .post img {
+            border-radius: 12px;
+            max-height: 400px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .user-info {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .user-avatar img {
+            border-radius: 50%;
         }
 
         .btn-outline-primary {
@@ -89,68 +111,59 @@
             background-color: var(--primary);
             color: white;
         }
+
+        .logout-btn {
+            padding: 12px 24px;
+            margin: 1rem;
+        }
     </style>
 </head>
 <body>
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <div id="sidebar" class="sidebar">
-            <h4 class="text-center py-3" style="color: var(--primary);">ForkLet</h4>
-            <a href="#">Home</a>
-            <a href="#">Profile</a>
-            <a href="/personal">Personal Post</a>
-            <a href="/library">Library</a>
-            <div class="text-center mt-3 user-info">
-                <strong>{{ Auth::user()->name }}</strong><br>
-                <small>@{{ Auth::user()->username }}</small>
-                <form action="/logout" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-danger btn-block mt-2">Log Out</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="flex-grow-1">
-            <div class="header">
-                <button class="btn-toggle" onclick="toggleSidebar()">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h2 class="m-0" style="color: var(--primary);">For You</h2>
-                <div class="user-avatar">
-                    <img src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="avatar" class="rounded-circle" width="40" height="40">
-                </div>
-            </div>
-
-            <div class="container mt-4">
-                @foreach ($posts as $post)
-                    <div class="post">
-                        <h4>{{ $post['title'] }}</h4>
-                        <form action="/library/save/{{ $post->id }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-primary btn-sm mt-2">
-                                <i class="fas fa-bookmark"></i> Save to Library
-                            </button>
-                        </form>
-                        <p class="user-info">
-                            {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post['location'] }}
-                        </p>
-                        <p>{{ $post['body'] }}</p>
-                        @if ($post->image_path)
-                            <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post Image" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;">
-                        @endif
-                    </div>
-                @endforeach
-            </div>
+    <!-- Sidebar -->
+    <div class="sidebar d-flex flex-column">
+        <h4 style="color: var(--primary);">ForkLet</h4>
+        <a href="#" class="active"><i class="fas fa-home mr-2"></i> Home</a>
+        <a href="#"><i class="fas fa-user mr-2"></i> Profile</a>
+        <a href="/personal"><i class="fas fa-pencil-alt mr-2"></i> Personal Post</a>
+        <a href="/library"><i class="fas fa-book mr-2"></i> Library</a>
+        <div class="mt-auto text-center mb-4">
+            <div><strong>{{ Auth::user()->name }}</strong></div>
+            <div class="text-muted">@{{ Auth::user()->username }}</div>
+            <form action="/logout" method="POST" class="mt-2">
+                @csrf
+                <button type="submit" class="btn btn-danger logout-btn">Log Out</button>
+            </form>
         </div>
     </div>
 
-    <!-- JavaScript -->
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('collapsed');
-        }
-    </script>
+    <!-- Header -->
+    <div class="header">
+        <h2>For You</h2>
+        <div class="user-avatar">
+            <img src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="avatar" width="40" height="40">
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        @foreach ($posts as $post)
+            <div class="post">
+                <h4>{{ $post['title'] }}</h4>
+                <form action="/library/save/{{ $post->id }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-primary btn-sm mt-2 mb-2">
+                        <i class="fas fa-bookmark"></i> Save to Library
+                    </button>
+                </form>
+                <p class="user-info">
+                    {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post['location'] }}
+                </p>
+                <p>{{ $post['body'] }}</p>
+                @if ($post->image_path)
+                    <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post Image">
+                @endif
+            </div>
+        @endforeach
+    </div>
 </body>
 </html>
