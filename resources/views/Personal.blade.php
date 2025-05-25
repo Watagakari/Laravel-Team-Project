@@ -75,7 +75,7 @@
         }
 
         .post {
-            background-color: rgb(244, 240, 233);
+            background: #ffffff;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 24px;

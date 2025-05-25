@@ -42,7 +42,7 @@
         }
 
         .sidebar a:hover {
-            background-color: #f0f0f0;
+            background-color: rgb(248, 245, 239);
         }
 
         .sidebar a.active {
@@ -75,7 +75,7 @@
         }
 
         .post {
-        background-color: rgb(244, 240, 233);
+        background: #ffffff;
         border-radius: 12px;
         padding: 20px;
         margin-bottom: 24px;
