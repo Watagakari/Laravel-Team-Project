@@ -132,7 +132,7 @@
         <a href="/library"><i class="fas fa-book mr-2"></i> Library</a>
         <div class="mt-auto text-center mb-4">
             <div><strong>{{ Auth::user()->name }}</strong></div>
-            <div class="text-muted">@{{ Auth::user()->username }}</div>
+            <div class="text-muted">@{{ Auth::user()->email}}</div>
             <form action="/logout" method="POST" class="mt-2">
                 @csrf
                 <button type="submit" class="btn btn-danger logout-btn">Log Out</button>
