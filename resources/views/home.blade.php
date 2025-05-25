@@ -113,7 +113,7 @@
             </button>
           </form>
           <p class="text-[#7D7D7D] text-sm mb-3">
-            {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post['location'] }}
+            {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post['location'] }} • {{ $post['cp']}}
           </p>
           <p class="text-[#3E3E3E] text-base mb-4">{{ $post['body'] }}</p>
           @if ($post->image_path)
@@ -178,7 +178,7 @@
         });
 
         // Show username and logout form
-        sidebarUserName.style.display = 'block';
+        sidebarUserName.style.display = 'block';z
         sidebarLogoutForm.style.display = 'block';
       }
     });
