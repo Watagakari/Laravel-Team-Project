@@ -23,7 +23,7 @@
 
     .sidebar {
       background-color: #fff;
-      width: 250px;
+      width: 350px;
       transition: width 0.3s ease;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
       position: relative;
@@ -142,7 +142,6 @@
 
       <div class="user-info mt-3">
         <strong>{{ Auth::user()->name }}</strong><br>
-        <small>@{{ Auth::user()->username }}</small>
       </div>
 
       <div class="logout-area">
