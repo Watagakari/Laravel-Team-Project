@@ -21,9 +21,9 @@
       min-height: 100vh;
     }
     
-    .flex-grow-1[
+    .flex-grow-1{}
         font-family: system-ui;
-    ]
+    }
 
     .sidebar {
     font-family: system-ui;
