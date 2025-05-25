@@ -97,8 +97,8 @@
 
     <!-- Right Panel -->
     <div class="col-md-6 right-panel">
-      <p class="fs-5 fw-bold">Forklet</p>
-      <p class="fs-4">Where the magics begin</p>
+      <p class="fs-5 fw-bold; font-family: cursive">Forklet</p>
+      <p class="fs-4; font-family: cursive">Where the magics begin</p>
     </div>
   </div>
 </div>
