@@ -3,9 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -55,4 +56,25 @@ class User extends Authenticatable
         return $this->belongsToMany(Post::class, 'library_posts', 'user_id', 'post_id')->withTimestamps();
     }
 
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            // Hapus semua gambar dan detach relasi sebelum delete post
+            foreach ($user->userPosts as $post) {
+                // Hapus relasi di tabel pivot
+                $post->savedByUsers()->detach();
+
+                // Hapus gambar jika ada
+                if ($post->image_path) {
+                    Storage::disk('public')->delete($post->image_path);
+                }
+
+                // Hapus post
+                $post->delete();
+            }
+
+            // Hapus semua library yang disimpan user ini
+            $user->savedPosts()->detach();
+        });
+    }
 }
