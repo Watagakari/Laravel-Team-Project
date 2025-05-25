@@ -19,7 +19,7 @@
 
         .sidebar {
             background-color: #fff;
-            width: 250px;
+            width: 320px;
             height: 100vh;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
             position: fixed;
@@ -132,7 +132,6 @@
         <a href="/library"><i class="fas fa-book mr-2"></i> Library</a>
         <div class="mt-auto text-center mb-4">
             <div><strong>{{ Auth::user()->name }}</strong></div>
-            <div class="text-muted">@{{ Auth::user()->email}}</div>
             <form action="/logout" method="POST" class="mt-2">
                 @csrf
                 <button type="submit" class="btn btn-danger logout-btn">Log Out</button>
