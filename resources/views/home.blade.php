@@ -75,12 +75,16 @@
         }
 
         .post {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+}
+
 
         .post h4 {
             margin-bottom: 10px;
