@@ -35,7 +35,7 @@
     }
 
     .sidebar h4 {
-        font-family: Itim;
+        font-family: cursive;
       color: var(--primary);
       padding: 1rem;
       text-align: center;
@@ -73,6 +73,7 @@
     }
 
     .header {
+        font-family: cursive;
       background-color: #ffffff;
       border-bottom: 1px solid #dee2e6;
       padding: 1rem;
