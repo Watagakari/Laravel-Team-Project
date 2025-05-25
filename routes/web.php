@@ -28,6 +28,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/personal', [UserController::class, 'index']);
     Route::get('/home', [UserController::class, 'indexAll']);
 
+    //Profile pages
+    Route::get('/profile', function () {
+        return view('profile');
+    });
+    Route::delete('/profile/delete', [UserController::class, 'delete'])->middleware('auth');
+    Route::put('/profile/update', [UserController::class, 'update'])->middleware('auth');
+
     // Post
     Route::post('/create-post', [PostController::class, 'createPost']);
     Route::get('/edit-post/{post}', [PostController::class, 'EditScreen']);
