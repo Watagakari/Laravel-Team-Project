@@ -19,7 +19,7 @@
 
         .sidebar {
             background-color: #fff;
-            width: 250px;
+            width: 280px;
             height: 100vh;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
             position: fixed;
