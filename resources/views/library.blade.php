@@ -126,16 +126,17 @@
           aria-label="Post by {{ $post->user->name }}"
         >
           <h4 class="font-semibold text-[#3E3E3E] text-lg mb-2">{{ $post['title'] }}</h4>
-          <form action="/library/remove/{{ $post->id }}" method="POST" class="mb-4">
-            @csrf
-            @method('DELETE')
-            <button
-              type="submit"
-              class="inline-flex items-center gap-2 border border-red-500 text-red-500 text-sm font-semibold px-3 py-1.5 rounded hover:bg-red-500 hover:text-white transition"
-            >
-              <i class="fas fa-trash"></i> Remove from Library
-            </button>
+          <form action="{{ url('/library/remove/' . $post->id) }}" method="POST" class="mb-4">
+              @csrf
+              @method('DELETE')
+              <button
+                type="submit"
+                class="inline-flex items-center gap-2 border border-red-500 text-red-500 text-sm font-semibold px-3 py-1.5 rounded hover:bg-red-500 hover:text-white transition"
+              >
+                <i class="fas fa-trash"></i> Remove from Library
+              </button>
           </form>
+
           <p class="text-[#7D7D7D] text-sm mb-3">
             {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post['location'] }} • {{ $post['cp'] }}
           </p>
