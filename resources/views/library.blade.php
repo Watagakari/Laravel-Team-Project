@@ -120,22 +120,35 @@
         <section class="mb-6">
           <h2 class="text-xl font-semibold mb-4">Your Saved Posts</h2>
           @if($posts->count())
-            @foreach($posts as $post)
-              <article class="bg-white rounded-lg p-6 shadow mb-4">
-                <h5 class="font-semibold text-[#3E3E3E] text-lg mb-2">{{ $post->title }}</h5>
-                <p class="text-[#3E3E3E] mb-4">{{ $post->body }}</p>
-                <form action="{{ route('library.unsave', $post->id) }}" method="POST" class="inline">
-                  @csrf
-                  @method('DELETE')
-                  <button
-                    type="submit"
-                    class="bg-red-600 text-white text-sm px-3 py-1 rounded hover:bg-red-700 transition"
-                  >
-                    Remove
-                  </button>
-                </form>
-              </article>
-            @endforeach
+            @foreach ($posts as $post)
+        <article
+          class="bg-white rounded-lg p-6 shadow max-w-4xl mx-auto mb-6"
+          aria-label="Post by {{ $post->user->name }}"
+        >
+          <h4 class="font-semibold text-[#3E3E3E] text-lg mb-2">{{ $post['title'] }}</h4>
+          <form action="/library/remove/{{ $post->id }}" method="POST" class="mb-4">
+            @csrf
+            @method('DELETE')
+            <button
+              type="submit"
+              class="inline-flex items-center gap-2 border border-red-500 text-red-500 text-sm font-semibold px-3 py-1.5 rounded hover:bg-red-500 hover:text-white transition"
+            >
+              <i class="fas fa-trash"></i> Remove from Library
+            </button>
+          </form>
+          <p class="text-[#7D7D7D] text-sm mb-3">
+            {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post['location'] }} • {{ $post['cp'] }}
+          </p>
+          <p class="text-[#3E3E3E] text-base mb-4">{{ $post['body'] }}</p>
+          @if ($post->image_path)
+          <img
+            src="{{ asset('storage/' . $post->image_path) }}"
+            alt="Post image"
+            class="rounded-lg max-h-[400px] w-full object-cover"
+          />
+          @endif
+        </article>
+        @endforeach
           @else
             <p class="text-center text-[#7D7D7D]">You haven’t saved any posts yet.</p>
           @endif
