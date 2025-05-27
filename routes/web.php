@@ -44,6 +44,10 @@ Route::middleware('auth')->group(function () {
     // Library
     Route::get('/library', [LibraryController::class, 'index'])->name('library.index');
 
+    //remove saved library
+    Route::delete('/library/remove/{post}', [LibraryController::class, 'unsave']);
+
+
     // Save a post (attach post to user)
     Route::post('/library/save/{post}', [LibraryController::class, 'save'])->name('library.save')->middleware('auth');
 
