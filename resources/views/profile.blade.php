@@ -15,6 +15,28 @@
                 </div>
             </div>
         </div>
+
+        <!-- Profile Actions -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6 flex justify-between items-center">
+            <div class="flex gap-4">
+                <!-- Edit Button triggers modal -->
+                <button onclick="document.getElementById('editProfileModal').classList.remove('hidden')" 
+                    class="bg-[#958433] text-white px-4 py-2 rounded hover:bg-[#7a6a29] transition">
+                    Edit Profile
+                </button>
+
+                <!-- Delete Button with confirmation -->
+                <form action="{{ route('profile.delete') }}" method="POST" 
+                    onsubmit="return confirm('Are you sure you want to delete your account?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" 
+                        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition">
+                        Delete Account
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Profile Stats -->
@@ -85,6 +107,47 @@
             </div>
         </article>
         @endforeach
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div id="editProfileModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+        <!-- Close Button -->
+        <button onclick="document.getElementById('editProfileModal').classList.add('hidden')" 
+            class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-xl font-bold">
+            &times;
+        </button>
+
+        <h2 class="text-xl font-bold text-[#3E3E3E] mb-4">Edit Profile</h2>
+        <form action="{{ route('profile.update') }}" method="POST">
+            @csrf
+            @method('PUT')
+
+            <div class="mb-4">
+                <label class="block mb-1 text-sm font-medium text-gray-700">Name</label>
+                <input type="text" name="name" value="{{ $user->name }}" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#958433]">
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-1 text-sm font-medium text-gray-700">New Password (optional)</label>
+                <input type="password" name="password" placeholder="Leave blank to keep current"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#958433]">
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <button type="button" 
+                    onclick="document.getElementById('editProfileModal').classList.add('hidden')"
+                    class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100">
+                    Cancel
+                </button>
+                <button type="submit" 
+                    class="bg-[#958433] text-white px-6 py-2 rounded hover:bg-[#7a6a29] transition">
+                    Save Changes
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 @endsection
