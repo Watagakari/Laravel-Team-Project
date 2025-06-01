@@ -53,7 +53,21 @@ class User extends Authenticatable
 
     public function savedPosts()
     {
-        return $this->belongsToMany(Post::class, 'library_posts', 'user_id', 'post_id')->withTimestamps();
+        return $this->belongsToMany(Post::class, 'library_posts', 'user_id', 'post_id')
+            ->withPivot('category_id')
+            ->withTimestamps();
+    }
+
+    public function libraryPosts()
+    {
+        return $this->belongsToMany(Post::class, 'library_posts', 'user_id', 'post_id')
+            ->withPivot('category_id')
+            ->withTimestamps();
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
     }
 
     protected static function booted()
