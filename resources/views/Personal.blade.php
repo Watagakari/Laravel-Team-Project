@@ -1,266 +1,88 @@
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Personal Post</title>
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    rel="stylesheet"
-  />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --primary: #958433;
-    }
-    .font-cursive {
-      font-family: cursive;
-    }
-    /* Ensure sidebar bottom section fixed */
-    #sidebarBottom {
-      bottom: 0;
-      width: 18rem; /* 72 * 4 = 288px */
-      background-color: #FCFBEF;
-      border-top: 1px solid #E6E6E6;
-      padding: 1.5rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      position: fixed;
-      left: 0;
-      z-index: 50;
-      transition: width 0.3s;
-    }
-    /* Adjust width when sidebar collapsed */
-    #sidebar.collapsed #sidebarBottom {
-      width: 5rem; /* 20 * 4 = 80px */
-      padding: 1.5rem 0.5rem;
-    }
-  </style>
-</head>
-<body class="bg-[#F7F8FA] text-[#3E3E3E] font-sans">
-  <div class="flex min-h-screen">
-     <!-- Sidebar -->
-    <aside id="sidebar" class="flex flex-col bg-[#FCFBEF] border-r border-[#E6E6E6] transition-all duration-300 w-72 relative">
-      <div>
-        <h4 id="sidebarTitle" class="text-[#958433] font-cursive font-bold text-2xl px-6 py-6 select-none flex items-center gap-3" style="font-family: cursive;">
-          <span>ForkLet</span>
-        </h4>
-        <nav class="flex flex-col space-y-2 px-3">
-          <a href="/home" class="flex items-center gap-3 text-[#3E3E3E] text-sm leading-5 px-5 py-2.5 rounded-full hover:bg-[#F8F5EF] transition">
-            <i class="fas fa-home text-sm w-5 text-center"></i>
-            <span class="sidebar-text">Home</span>
-          </a>
-          <a href="/profile"
-            class="flex items-center gap-3 px-5 py-2.5 rounded-full text-sm leading-5 transition
-            {{ Request::is('profile') ? 'bg-[#958433] text-white font-semibold' : 'text-[#3E3E3E] hover:bg-[#F8F5EF]' }}">
-            <i class="fas fa-user text-sm w-5 text-center"></i>
-            <span class="sidebar-text">Profile</span>
-          </a>
+@extends('layouts.app')
 
-          <a href="/personal"
-            class="flex items-center gap-3 px-5 py-2.5 rounded-full text-sm leading-5 transition
-            {{ Request::is('personal') ? 'bg-[#958433] text-white font-semibold' : 'text-[#3E3E3E] hover:bg-[#F8F5EF]' }}">
-            <i class="fas fa-pencil-alt text-sm w-5 text-center"></i>
-            <span class="sidebar-text">Personal Post</span>
-          </a>
+@section('header_title', 'Personal Posts')
 
-          <a href="/library"
-            class="flex items-center gap-3 px-5 py-2.5 rounded-full text-sm leading-5 transition
-            {{ Request::is('library') ? 'bg-[#958433] text-white font-semibold' : 'text-[#3E3E3E] hover:bg-[#F8F5EF]' }}">
-            <i class="fas fa-book text-sm w-5 text-center"></i>
-            <span class="sidebar-text">Library</span>
-          </a>
-
-        </nav>
-      </div>
-      <div id="sidebarBottom" class="mt-auto">
-        <img
-          id="sidebarAvatar"
-          src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}"
-          alt="User avatar"
-          class="w-10 h-10 rounded-full object-cover"
-          width="40"
-          height="40"
-        />
-        <p id="sidebarUserName" class="font-semibold text-[#3E3E3E] text-sm leading-5 select-text m-0">
-          {{ Auth::user()->name }}
-        </p>
-        <form id="sidebarLogoutForm" action="/logout" method="POST" class="w-full text-center m-0">
-          @csrf
-          <button
-            type="submit"
-            class="flex items-center justify-center gap-2 text-[#958433] font-semibold text-sm leading-5 hover:underline w-full"
-          >
-            <i class="fas fa-sign-out-alt"></i> <span class="sidebar-text">Log Out</span>
-          </button>
-        </form>
-      </div>
-    </aside>
-
-
-    <!-- Main content -->
-    <div class="flex-1 flex flex-col">
-      <!-- Header -->
-      <header class="flex items-center justify-between bg-white border-b border-[#E6E6E6] px-6 py-4 sticky top-0 z-30">
-        <button
-          id="toggleSidebarBtn"
-          aria-label="Toggle sidebar"
-          class="text-[#3E3E3E] text-xl focus:outline-none"
-          title="Toggle sidebar"
-        >
-          <i class="fas fa-bars"></i>
-        </button>
-        <h2 class="font-semibold text-[#958433] text-lg leading-6 font-cursive select-none" style="font-family: cursive;">
-          Personal Post
-        </h2>
-        <div>
-          <img
-            src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}"
-            alt="User avatar"
-            class="w-10 h-10 rounded-full object-cover"
-            width="40"
-            height="40"
-          />
-        </div>
-      </header>
-
-      <!-- Content -->
-      <main class="flex-1 overflow-auto p-6 bg-[#F7F8FA] max-w-4xl mx-auto w-full">
-        <section class="bg-white rounded-lg p-6 shadow mb-6">
-          <h2 class="text-xl font-semibold mb-4">Create a New Post</h2>
-          <form action="/create-post" method="POST" enctype="multipart/form-data" class="space-y-4">
+@section('content')
+<div class="max-w-4xl mx-auto w-full">
+    <!-- Create Post Form -->
+    <div class="bg-white rounded-lg shadow mb-6">
+        <form action="/create-post" method="POST" enctype="multipart/form-data" class="p-6">
             @csrf
-            <input
-              type="text"
-              name="title"
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#958433]"
-              placeholder="Post Title"
-              required
-            />
-            <textarea
-              name="body"
-              rows="5"
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#958433]"
-              placeholder="Body Content"
-              required
-            ></textarea>
-            <input
-              type="text"
-              name="cp"
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#958433]"
-              placeholder="Contact Person"
-              required
-            />
-            <input
-              type="text"
-              name="location"
-              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#958433]"
-              placeholder="Location"
-              required
-            />
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-              class="w-full"
-            />
-            <button
-              type="submit"
-              class="w-full bg-[#958433] text-white font-semibold py-2 rounded hover:bg-[#7a6f28] transition"
-            >
-              Save Post
-            </button>
-          </form>
-        </section>
-
-        <section class="bg-white rounded-lg p-6 shadow">
-          <h2 class="text-xl font-semibold mb-4">Your Posts</h2>
-          @foreach ($posts as $post)
-          <article class="mb-6 border border-gray-200 rounded-lg p-4">
-            <h4 class="font-semibold text-[#3E3E3E] text-lg mb-2">{{ $post['title'] }}</h4>
-            <p class="text-[#7D7D7D] text-sm mb-2">
-              Posted By {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }} • {{ $post['location'] }}
-            </p>
-            <p class="text-[#3E3E3E] mb-4">{{ $post['body'] }}</p>
-            @if ($post->image_path)
-            <img
-              src="{{ asset('storage/' . $post->image_path) }}"
-              alt="Post Image"
-              class="rounded-lg max-h-[400px] w-full object-cover mb-4"
-            />
-            @endif
-            <div class="flex justify-between items-center">
-              <a href="/edit-post/{{ $post->id }}" class="text-[#958433] font-semibold hover:underline">Edit</a>
-              <form action="/delete-post/{{ $post->id }}" method="POST" class="inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="bg-red-600 text-white text-sm px-3 py-1 rounded hover:bg-red-700 transition">
-                  Delete
-                </button>
-              </form>
+            <div class="mb-4">
+                <input type="text" name="title" placeholder="Title" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#958433]" required>
             </div>
-          </article>
-          @endforeach
-        </section>
-      </main>
+            <div class="mb-4">
+                <textarea name="body" placeholder="What's on your mind?" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#958433] h-32" required></textarea>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <input type="text" name="location" placeholder="Location" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#958433]">
+                </div>
+                <div>
+                    <input type="text" name="cp" placeholder="Contact Person" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#958433]">
+                </div>
+            </div>
+            <div class="mb-4">
+                <input type="file" name="image" class="w-full" accept="image/*">
+            </div>
+            <div class="flex justify-end">
+                <button type="submit" class="bg-[#958433] text-white px-6 py-2 rounded-full hover:bg-[#7a6a29] transition">
+                    Post
+                </button>
+            </div>
+        </form>
     </div>
-  </div>
 
- <script>
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleSidebarBtn');
-    const sidebarTitle = document.getElementById('sidebarTitle');
-    const sidebarUserName = document.getElementById('sidebarUserName');
-    const sidebarLogoutForm = document.getElementById('sidebarLogoutForm');
-    const sidebarBottom = document.getElementById('sidebarBottom');
-
-    toggleBtn.addEventListener('click', () => {
-      if (sidebar.classList.contains('w-72')) {
-        // Collapse sidebar
-        sidebar.classList.remove('w-72');
-        sidebar.classList.add('w-20', 'collapsed');
-
-        // Change sidebar title to single letter and center it
-        sidebarTitle.classList.add('justify-center', 'px-0');
-        sidebarTitle.innerHTML = '<span>F</span>';
-
-        // Hide all sidebar text except icons
-        sidebar.querySelectorAll('nav a').forEach((link) => {
-          link.classList.add('justify-center', 'px-0');
-          const icon = link.querySelector('i');
-          icon.classList.add('mx-auto');
-          // Hide text spans
-          const textSpan = link.querySelector('.sidebar-text');
-          if (textSpan) textSpan.style.display = 'none';
-        });
-
-        // Hide username text and logout form completely
-        sidebarUserName.style.display = 'none';
-        sidebarLogoutForm.style.display = 'none';
-      } else {
-        // Expand sidebar
-        sidebar.classList.remove('w-20', 'collapsed');
-        sidebar.classList.add('w-72');
-
-        // Restore sidebar title
-        sidebarTitle.classList.remove('justify-center', 'px-0');
-        sidebarTitle.innerHTML = '<span>ForkLet</span>';
-
-        // Restore nav links text and alignment
-        sidebar.querySelectorAll('nav a').forEach((link) => {
-          link.classList.remove('justify-center', 'px-0');
-          const icon = link.querySelector('i');
-          icon.classList.remove('mx-auto');
-          const textSpan = link.querySelector('.sidebar-text');
-          if (textSpan) textSpan.style.display = 'inline';
-        });
-
-        // Show username and logout form
-        sidebarUserName.style.display = 'block';
-        sidebarLogoutForm.style.display = 'block';
-      }
-    });
-  </script>
-</body>
-</html>
+    <!-- Personal Posts -->
+    <div class="space-y-6">
+        @foreach($posts as $post)
+        <article class="bg-white rounded-lg shadow">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <img src="https://ui-avatars.com/api/?name={{ $post->user->name }}" alt="User avatar" class="w-10 h-10 rounded-full">
+                        <div>
+                            <h3 class="font-semibold text-[#3E3E3E]">{{ $post->user->name }}</h3>
+                            <p class="text-sm text-[#7D7D7D]">
+                                {{ $post->created_at->diffForHumans() }} • {{ $post->location }} • {{ $post->cp }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="/edit-post/{{ $post->id }}" class="text-[#958433] hover:text-[#7a6a29]">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="/delete-post/{{ $post->id }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <h2 class="text-xl font-bold text-[#3E3E3E] mb-2">{{ $post->title }}</h2>
+                <p class="text-[#3E3E3E] mb-4">{{ $post->body }}</p>
+                @if($post->image_path)
+                <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post image" class="rounded-lg max-h-[400px] w-full object-cover mb-4">
+                @endif
+                <div class="flex items-center gap-4">
+                    <button class="flex items-center gap-2 text-[#7D7D7D] hover:text-[#958433] transition">
+                        <i class="far fa-heart"></i>
+                        <span>Like</span>
+                    </button>
+                    <button class="flex items-center gap-2 text-[#7D7D7D] hover:text-[#958433] transition">
+                        <i class="far fa-comment"></i>
+                        <span>Comment</span>
+                    </button>
+                    <button class="flex items-center gap-2 text-[#7D7D7D] hover:text-[#958433] transition">
+                        <i class="far fa-bookmark"></i>
+                        <span>Save</span>
+                    </button>
+                </div>
+            </div>
+        </article>
+        @endforeach
+    </div>
+</div>
+@endsection
